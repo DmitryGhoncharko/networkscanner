@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Главная страница</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .gallery img {
+            max-width: 100%;
+            height: auto;
+            margin-bottom: 20px;
+        }
+
+        .carousel-item img {
+            max-height: 300px;
+            width: auto;
+            margin: 0 auto;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <nav class="nav justify-content-center">
+            <a class="nav-link" href="/admin/addHash">Добавить хеш в базу данных</a>
+            <a class="nav-link" href="/admin/hashList">Cписок хешей</a>
+            <a class="nav-link" href="/admin/logs">Логи</a>
+            <a class="nav-link" href="/admin/scan">Запустить проверку</a>
+            <a class="nav-link" href="/admin/dl">Отложенные сканирования</a>
+            <a class="nav-link" href="/logout">Выйти</a>
+        </nav>
+    </div>
+</header>
+
+<div class="container">
+    <h2 class="text-center mt-5 mb-3">Административная панель</h2>
+    <h3>Отложенные сканирования</h3>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Подсеть</th>
+                <th scope="col">Путь</th>
+                <th scope="col">Логин</th>
+                <th scope="col">Пароль</th>
+                <th scope="col">Дата сканирования</th>
+                <th scope="col">Действия</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="dl : ${dl}">
+                <td th:text="${dl.id}">ID</td>
+                <td th:text="${dl.subnet}">Подсеть</td>
+                <td th:text="${dl.path}">Путь</td>
+                <td th:text="${dl.login}">Логин</td>
+                <td th:text="${dl.password}">Пароль</td>
+                <td th:text="${dl.scanDate}">Дата сканирования</td>
+                <td><a href="#" class="btn btn-danger" th:href="@{'/admin/deleteDelayed?id=' + ${dl.id}}">Удалить</a></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

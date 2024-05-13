@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Главная страница</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    header {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+    }
+
+    .gallery img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    .carousel-item img {
+      max-height: 300px;
+      width: auto;
+      margin: 0 auto;
+    }
+
+    footer {
+      background-color: #333;
+      color: #fff;
+      padding: 20px 0;
+      text-align: center;
+      margin-top: 50px;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="container">
+    <nav class="nav justify-content-center">
+      <a class="nav-link" href="/admin/addHash">Добавить хеш в базу данных</a>
+      <a class="nav-link" href="/admin/hashList">Cписок хешей</a>
+      <a class="nav-link" href="/admin/logs">Логи</a>
+      <a class="nav-link" href="/admin/scan">Запустить проверку</a>
+      <a class="nav-link" href="/admin/dl">Отложенные сканирования</a>
+      <a class="nav-link" href="/logout">Выйти</a>
+    </nav>
+  </div>
+</header>
+
+<div class="container">
+  <h2 class="text-center mt-5 mb-3">Административная панель</h2>
+  <div th:if="${scanDateTime != null}">
+    <p>Дата и время сканирования: <span th:text="${scanDateTime}"></span></p>
+  </div>
+  <form action="/admin/startScanWithPath" method="get">
+    <div class="form-group">
+      <input hidden name="ipSMB" id="ipSMB" th:value="${ipSMB}">
+      <label for="pathInput1">Путь:</label>
+      <input type="text" class="form-control" id="pathInput1" name="path" placeholder="Введите путь">
+    </div>
+    <div class="form-group">
+      <label for="loginInput1">Логин:</label>
+      <input type="text" class="form-control" id="loginInput1" name="login" placeholder="Введите логин">
+    </div>
+    <div class="form-group">
+      <label for="passwordInput1">Пароль:</label>
+      <input type="password" class="form-control" id="passwordInput1" name="password" placeholder="Введите пароль">
+    </div>
+    <button type="submit" class="btn btn-primary mb-3">Сканировать с путем</button>
+  </form>
+  <table class="table">
+    <thead>
+    <tr>
+      <th scope="col">IP-адрес</th>
+      <th scope="col">Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="ip : ${smbIps}">
+      <td th:text="${ip}">IP-адрес</td>
+      <td>
+        <form th:action="@{/admin/startScan}" method="get">
+          <input type="hidden" name="subnet" th:value="${ip}">
+          <div class="form-group">
+            <label for="pathInput">Путь:</label>
+            <input type="text" class="form-control" id="pathInput" name="path" placeholder="Введите путь">
+          </div>
+          <div class="form-group">
+            <label for="loginInput">Логин:</label>
+            <input type="text" class="form-control" id="loginInput" name="login" placeholder="Введите логин">
+          </div>
+          <div class="form-group">
+            <label for="passwordInput">Пароль:</label>
+            <input type="password" class="form-control" id="passwordInput" name="password" placeholder="Введите пароль">
+          </div>
+          <button type="submit" class="btn btn-primary">Сканировать</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
