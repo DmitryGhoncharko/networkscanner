@@ -4,6 +4,7 @@ import com.example.shopshoesspring.entity.Delayed;
 import com.example.shopshoesspring.repository.DelayedRepository;
 import com.example.shopshoesspring.util.NetWorkHashScanner;
 import com.example.shopshoesspring.util.SMBScanner;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -29,11 +30,13 @@ public class ScheduledTaskService {
     @Autowired
     private SMBScanner smbScanner;
 
-    @Scheduled(fixedRate = 60000) 
+    @Scheduled(fixedRate = 60000)
+    @Transactional
     public void executeScheduledTasks() {
         List<Delayed> tasksToExecute = delayedRepository.findAll();
         for(Delayed delayed : tasksToExecute) {
             if(delayed.getScanDate().isAfter(Instant.now())){
+                delayedRepository.deleteById(delayed.getId());
                 taskExecutor.execute(new Runnable() {
                     @Override
                     public void run() {
