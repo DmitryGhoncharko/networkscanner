@@ -75,7 +75,16 @@ public class NetWorkHashScanner {
                                System.out.println(path + file.getName());
                                log.setMask("#####");
                                logs.add(log);
-                               logRepository.save(log);
+                               List<Log> logList = logRepository.findAll();
+                               boolean flag = true;
+                               for(Log logObj : logList){
+                                   if(logObj.getPath().equals(log.getPath())){
+                                       flag = false;
+                                   }
+                               }
+                              if(flag){
+                                  logRepository.save(log);
+                              }
                            }
                        }
                     }

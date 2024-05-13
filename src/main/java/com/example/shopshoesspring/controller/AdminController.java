@@ -14,13 +14,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import com.example.shopshoesspring.util.NetWorkHashScanner;
 import com.example.shopshoesspring.util.SMBScanner;
-
-import java.io.File;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.Temporal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -56,8 +53,16 @@ public class AdminController {
     }
     @PostMapping("/deleteHash")
     public String deleteHash(@RequestParam("hashId") Long hashId) {
-        hashRepository.deleteById(hashId);
+      try{
+          hashRepository.deleteById(hashId);
+      }catch (Throwable e){
+          return "redirect:/admin/cannotDel";
+      }
         return "redirect:/admin/hashList";
+    }
+    @GetMapping("/cannotDel")
+    public String cannotDelHash() {
+        return "cannotdelhash";
     }
     @GetMapping("/updateHash/{hashId}")
     public String updateHashPage(@PathVariable("hashId") Long hashId, Model model) {
