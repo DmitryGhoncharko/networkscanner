@@ -54,6 +54,10 @@
     <h2 class="text-center mt-5 mb-3">Административная панель</h2>
     <div class="row justify-content-center">
         <div class="col-md-4 text-center">
+            <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" id="remoteDbCheck1" name="remoteDbCheck">
+                <label class="form-check-label" for="remoteDbCheck1">Подключить удаленные БД</label>
+            </div>
             <form action="/admin/discoverSMBNetworks" method="get">
                 <div class="form-group">
                     <label for="subnetInput">Введите подсеть:</label>
